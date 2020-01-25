@@ -1,7 +1,7 @@
 {
-  "name": "mermaid-workflow-test",
+  "name": "compile-mermaid-markdown-action",
   "version": "1.0.0",
-  "description": "",
+  "description": "github action for compiling mermaid md to png",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
