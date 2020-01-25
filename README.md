@@ -1,1 +1,1 @@
-# mermaid-workflow-test
+# compile-mermaid-markdown-action

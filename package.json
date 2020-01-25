@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/neenjaw/mermaid-workflow-test/issues"
   },
-  "homepage": "https://github.com/neenjaw/mermaid-workflow-test#readme"
+  "homepage": "https://github.com/neenjaw/mermaid-workflow-test#readme",
+  "dependencies": {
+    "mermaid.cli": "^0.5.1"
+  }
 }

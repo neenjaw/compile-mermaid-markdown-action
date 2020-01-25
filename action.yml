@@ -1,0 +1,15 @@
+name: 'Compile Mermaid Markdown'
+description: '*.mmd files or *.md with mermaid codeblocks and compile them'
+inputs:
+  file:
+    description: 'the path to the file to compile'
+    required: true
+  output:
+    description: 'Where to output the file - std otherwise'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.file }}
+    - ${{ inputs.output }}
