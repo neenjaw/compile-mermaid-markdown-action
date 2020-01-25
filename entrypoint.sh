@@ -11,6 +11,6 @@ for file in "$@"; do
     printf "Attempting compile of: %s\n" "$file"
     name=$(basename "$file")
     printf "Output to: %s\n" "${outpath}/${name}.png"
-    /opt/compile-mermaid/node_modules/.bin/mmdc -i "$file" -o "${outpath}/${name}.png"
+    /opt/compile-mermaid/node_modules/.bin/mmdc -p /opt/compile-mermaid/puppeteer-config.json -i "$file" -o "${outpath}/${name}.png"
   fi
 done
