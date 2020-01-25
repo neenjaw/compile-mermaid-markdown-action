@@ -6,6 +6,8 @@ shift $(( OPTIND - 1 ))
 
 for file in "$@"; do
   if [ -f "$file" ]; then
+    mkdir -p "$outpath"
+
     name=$(basename "$filename" | cut -f 1 -d '.')
 
     mmdc -i "$file" -o "${outpath}/${name}.png"
