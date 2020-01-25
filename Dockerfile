@@ -1,23 +1,12 @@
-FROM alpine:edge
+FROM zenato/puppeteer
 
-# Installs latest Chromium package.
-RUN apk add --no-cache \
-      chromium \
-      nss \
-      freetype \
-      freetype-dev \
-      harfbuzz \
-      ca-certificates \
-      ttf-freefont \
-      nodejs \
-      npm
+USER root
+WORKDIR /
+RUN yarn add mermaid.cli
 
-# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+WORKDIR /mmdc
 
-WORKDIR /opt/compile-mermaid
+COPY . /mmdc
 
-COPY . /opt/compile-mermaid
-RUN npm i --production
-
-ENTRYPOINT [ "/opt/compile-mermaid/entrypoint.sh" ]
+ENTRYPOINT [ "/mmdc/entrypoint.sh" ]
+CMD [ "--help" ]

@@ -11,7 +11,7 @@ for file in "$@"; do
     printf "Attempting compile of: %s\n" "$file"
     name=$(basename "$file")
     printf "Output to: %s\n" "${outpath}/${name}.png"
-    /opt/compile-mermaid/node_modules/.bin/mmdc -p /opt/compile-mermaid/puppeteer-config.json -i "$file" -o "${outpath}/${name}.png"
+    /mmdc/node_modules/.bin/mmdc -p /mmdc/puppeteer-config.json -i "$file" -o "${outpath}/${name}.png"
 
     if [ ! -f "${outpath}/${name}.png" ]; then
       printf "Unable to create %s, exiting.." "${outpath}/${name}.png"
