@@ -88,7 +88,7 @@ function c_md_mermaid {
     ((block_count=block_count+1))
 
     # Grab the first block
-    sed '/^```$/q' < "${all_file}" > "${block_file}-${block_count}"    - get the first block
+    sed '/^```$/q' < "${all_file}" > "${block_file}-${block_count}"
 
     line_count=$(wc -l < "${block_file}-${block_count}")
 
@@ -99,9 +99,8 @@ function c_md_mermaid {
     sed "1,${line_count}d" < "${all_file}x" > "${all_file}"
     rm "${all_file}x"
 
-    # "compile file"
-    # TODO: Fixme! Need to actually compile this file...
-    echo "compiled ${block_file}-${block_count}" > "${2}/${dasherized}-${block_count}.png"
+    # Compile mermaid block"
+    c_mermaid "${block_file}-${block_count}" "${2}/${dasherized}-${block_count}.png"
 
     # Compute relative path from the markdown to the tmp_dir
     relative_path=$(realpath --relative-to="${input_dir}" "${2}/${dasherized}-${block_count}.png")
