@@ -1,5 +1,8 @@
 name: 'Compile Mermaid Markdown'
 description: '*.mmd files or *.md with mermaid codeblocks and compile them'
+branding:
+  icon: 'grid'
+  color: 'green'
 inputs:
   files:
     description: 'the path to the files to compile'
