@@ -138,6 +138,11 @@ function installed {
   return ${?}
 }
 
+function env_set {
+  [[ -z ${!1} ]]
+  return ${?}
+}
+
 function die {
   >&2 echo "Fatal: ${@}"
   exit 1
@@ -147,6 +152,11 @@ function die {
 deps=(node awk realpath basename dirname)
 for dep in "${deps[@]}"; do
   installed "${dep}" || die "Missing '${dep}'"
+done
+
+deps_env=(ENTRYPOINT_PATH)
+for dep_env in "${deps_env[@]}"; do
+  env_set "${dep_env}" || die "Not set '${dep_env}'"
 done
 
 main "$@"; exit
