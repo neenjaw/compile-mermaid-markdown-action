@@ -10,7 +10,7 @@ skip {skip--; next}
 
 (/```mermaid/ && i == n) {print link; print ""}
 
-(/```mermaid/ && i == n && hide_codeblock) {print "<details><summary>Mermaid markup<summary>"; details_open=1}
+(/```mermaid/ && i == n && hide_codeblocks) {print "<details><summary>Mermaid markup<summary>"; details_open=1}
 
 (/^```$/ && details_open) {print; print "</details>"; details_open=0; next}
 
