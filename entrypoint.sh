@@ -138,11 +138,6 @@ function installed {
   return ${?}
 }
 
-function env_set {
-  [[ -z ${!1} ]]
-  return ${?}
-}
-
 function die {
   >&2 echo "Fatal: ${@}"
   exit 1
@@ -154,9 +149,8 @@ for dep in "${deps[@]}"; do
   installed "${dep}" || die "Missing '${dep}'"
 done
 
-deps_env=(ENTRYPOINT_PATH)
-for dep_env in "${deps_env[@]}"; do
-  env_set "${dep_env}" || die "Not set '${dep_env}'"
-done
+if [[ -z ${ENTRYPOINT_PATH} ]]; then
+  die "'ENTRYPOINT_PATH' is not set, set to location of entrypoint.sh"
+fi
 
 main "$@"; exit
