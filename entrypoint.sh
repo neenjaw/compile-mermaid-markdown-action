@@ -109,7 +109,7 @@ function c_md_mermaid {
     awk -v n="${block_count}" \
         -v link="![~mermaid diagram ${block_count}~](${relative_path})" \
         # 'BEGIN {i=0}; (/!\[~mermaid diagram/ && i+1 == n) {skip=2}; skip {skip--; next}; /```mermaid/ {i++}; (/```mermaid/ && i == n) {print link; print ""}; {print}' \
-        -f insert-markdown.awk \
+        -f "${insert_markdown_awk}" \
         "${1}" > "${1}-temp"
     rm "${1}"
     mv "${1}-temp" "${1}"
@@ -149,8 +149,13 @@ for dep in "${deps[@]}"; do
   installed "${dep}" || die "Missing '${dep}'"
 done
 
-if [[ -z ${ENTRYPOINT_PATH} ]]; then
+if [[ -z "${ENTRYPOINT_PATH}" ]]; then
   die "'ENTRYPOINT_PATH' is not set, set to location of entrypoint.sh"
+fi
+
+insert_markdown_awk="${ENTRYPOINT_PATH}/insert-markdown.awk"
+if [[ ! -f "${insert_markdown_awk}" ]]; then
+  die "'${insert_markdown_awk}' not found in 'ENTRYPOINT_PATH'"
 fi
 
 main "$@"; exit
