@@ -148,10 +148,12 @@ for dep in "${deps[@]}"; do
   installed "${dep}" || die "Missing '${dep}'"
 done
 
+# Check for required ENV
 if [[ -z "${ENTRYPOINT_PATH}" ]]; then
   die "'ENTRYPOINT_PATH' is not set, set to location of entrypoint.sh"
 fi
 
+# Check for required files
 insert_markdown_awk="${ENTRYPOINT_PATH}/insert-markdown.awk"
 if [[ ! -f "${insert_markdown_awk}" ]]; then
   die "'${insert_markdown_awk}' not found in 'ENTRYPOINT_PATH'"
