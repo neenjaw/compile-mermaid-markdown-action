@@ -16,7 +16,9 @@ Looking for suggestions/help in improving this action.  If there is a feature yo
 
 The idea is that this action is to be used within a workflow, not as a standalone action at this time.
 
-Sample workflow (adapted from [my example repo](https://github.com/neenjaw/mermaid-markdown-test):
+### Sample workflow with automated PR
+
+> (adapted from [my example repo](https://github.com/neenjaw/mermaid-markdown-test):
 
 ```yaml
 name: 'Compile Mermaid'
@@ -74,4 +76,55 @@ jobs:
       run: |
         echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
         echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
+```
+
+### Sample workflow with changes pushed
+
+```yaml
+name: 'Compile Mermaid in Markdown'
+
+on:
+  push:
+    paths:
+      - '**/*.md'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: get changed files
+      id: getfile
+      run: |
+        echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -e '.*\.md$' | xargs)"
+
+    - name: md files changed
+      run: |
+        echo ${{ steps.getfile.outputs.files }}
+
+    - name: compile mermaid
+      uses: neenjaw/compile-mermaid-markdown-action@master
+      with:
+        files: ${{ steps.getfile.outputs.files }}
+        output: '.resources'
+
+    - name: show changes
+      run: |
+        git status
+
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Add changes" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
