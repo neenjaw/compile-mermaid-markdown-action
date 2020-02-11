@@ -23,7 +23,6 @@ The idea is that this action is to be used within a workflow, not as a standalon
 ```yaml
 name: 'Compile Mermaid'
 
-# determine when to fire the action
 on:
   push:
     paths:
@@ -36,31 +35,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Fetch the repository at its current state and the commit previous
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 2
-   
-    - name: Use git diff-tree to find the mermaid/md files that have changed
+    - name: get changed files
       id: getfile
       run: |
         echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -e '.*\.md$' -e '.*\.mermaid$' | xargs)"
 
-    - name: Print changed files for log
+    - name: mermaid files changed
       run: |
         echo ${{ steps.getfile.outputs.files }}
 
-    - name: Parse/Compile mermaid
+    - name: compile mermaid
       uses: neenjaw/compile-mermaid-markdown-action@master
       with:
         files: ${{ steps.getfile.outputs.files }}
-        output: '.resource'
+        output: 'output'
+      env:
+        HIDE_CODEBLOCKS: 1
 
-    - name: Show repository directory
+    - name: show changes
       run: |
-        ls -lR
+        git status
 
-    - name: Create Pull Request with changed files
+    - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v2
       with:
@@ -72,6 +71,8 @@ jobs:
 
           [1]: https://github.com/peter-evans/create-pull-request
         labels: report, automated pr
+        assignees: neenjaw
+        reviewers: neenjaw
     - name: Check outputs
       run: |
         echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
@@ -112,6 +113,8 @@ jobs:
       with:
         files: ${{ steps.getfile.outputs.files }}
         output: '.resources'
+      env:
+        HIDE_CODEBLOCKS: 1
 
     - name: show changes
       run: |
