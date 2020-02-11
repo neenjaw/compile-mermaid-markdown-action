@@ -1,8 +1,4 @@
-FROM zenato/puppeteer
-
-USER root
-WORKDIR /
-RUN yarn add mermaid.cli
+FROM neenjaw/mermaid:base
 
 WORKDIR /mmdc
 COPY . /mmdc
