@@ -107,7 +107,7 @@ function c_md_mermaid {
 
     # Insert the link to the markdown
     awk -v n="${block_count}" \
-        -v link="![~mermaid diagram ${block_count}~](${relative_path})" \
+        -v rel_path="${relative_path}" \
         -v hide_codeblocks="${HIDE_CODEBLOCKS}" \
         -f "${insert_markdown_awk}" \
         "${1}" > "${1}-temp"
