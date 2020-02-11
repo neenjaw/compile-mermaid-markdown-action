@@ -31,6 +31,7 @@ BEGIN {
     details_tag_open=1;
   }
 
+  print "";
   print;
   in_code_block=1;
   next;
@@ -38,6 +39,7 @@ BEGIN {
 
 (in_code_block && /```/) {
   print;
+  print "";
 
   if (details_tag_open) {
     print "</details>";
