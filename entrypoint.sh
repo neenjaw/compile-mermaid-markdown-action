@@ -103,13 +103,18 @@ function c_md_mermaid {
     c_mermaid "${block_file}-${block_count}" "${2}/${dasherized}-${block_count}.png"
 
     # Compute relative path from the markdown to the tmp_dir
-    relative_path=$(realpath --relative-to="${input_dir}" "${2}/${dasherized}-${block_count}.png")
-    absolute_path="/${2}/${dasherized}-${block_count}.png"
+    image_relative_path=$(realpath --relative-to="${input_dir}" "${2}/${dasherized}-${block_count}.png")
+    image_absolute_path="/${2}/${dasherized}-${block_count}.png"
+
+    if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
+      path="${image_relative_path}"
+    else
+      path="${image_absolute_path}"
+    fi
 
     # Insert the link to the markdown
     awk -v n="${block_count}" \
-        -v rel_path="${relative_path}" \
-        -v abs_path="${absolute_path}" \
+        -v path="${image_path}" \
         -v hide_codeblocks="${HIDE_CODEBLOCKS}" \
         -f "${insert_markdown_awk}" \
         "${1}" > "${1}-temp"
