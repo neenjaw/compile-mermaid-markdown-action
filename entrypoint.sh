@@ -107,9 +107,9 @@ function c_md_mermaid {
     image_absolute_path="/${2}/${dasherized}-${block_count}.png"
 
     if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
-      path="${image_relative_path}"
+      image_path="${image_relative_path}"
     else
-      path="${image_absolute_path}"
+      image_path="${image_absolute_path}"
     fi
 
     # Insert the link to the markdown
