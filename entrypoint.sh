@@ -104,7 +104,7 @@ function c_md_mermaid {
 
     # Compute relative path from the markdown to the tmp_dir
     relative_path=$(realpath --relative-to="${input_dir}" "${2}/${dasherized}-${block_count}.png")
-    absolute_path="$(cd "${2}" && pwd -P)/${dasherized}-${block_count}.png"
+    absolute_path="/${2}/${dasherized}-${block_count}.png"
 
     # Insert the link to the markdown
     awk -v n="${block_count}" \
