@@ -1,4 +1,4 @@
-FROM neenjaw/mermaid:base
+FROM neenjaw/mermaid:node-13
 
 WORKDIR /mmdc
 COPY . /mmdc
