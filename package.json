@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/neenjaw/mermaid-workflow-test#readme",
   "dependencies": {
-    "mermaid.cli": "^0.5.1"
+    "mermaid.cli": "^0.5.1",
+    "minimist": ">=0.2.1"
   }
 }
