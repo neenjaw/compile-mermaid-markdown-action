@@ -19,6 +19,8 @@
 set -euo pipefail
 
 function main {
+  printf "Using MMDC version %s\n" "$(/node_modules/.bin/mmdc -V)"
+
   outpath="${1}"
   mkdir -p "${outpath}"
   printf "Got output path: %s\n" "${outpath}"
