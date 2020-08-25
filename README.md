@@ -54,6 +54,7 @@ jobs:
         output: 'output'
       env:
         HIDE_CODEBLOCKS: 1
+        ABSOLUTE_IMAGE_LINKS: 1
 
     - name: show changes
       run: |
@@ -71,8 +72,8 @@ jobs:
 
           [1]: https://github.com/peter-evans/create-pull-request
         labels: report, automated pr
-        assignees: neenjaw
-        reviewers: neenjaw
+        assignees: ${{ github.actor }}
+        reviewers: ${{ github.actor }}
     - name: Check outputs
       run: |
         echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
@@ -115,6 +116,7 @@ jobs:
         output: '.resources'
       env:
         HIDE_CODEBLOCKS: 1
+        ABSOLUTE_IMAGE_LINKS: 1
 
     - name: show changes
       run: |
