@@ -37,7 +37,7 @@ function main {
       file_type="${file_basename##*.}"
 
 
-      if [[ "${file_type}" == "mermaid" ]]; then
+      if [[ "${file_type}" == "mermaid" || "${file_type}" == "mmd" ]]; then
 
         output_path="${file_dirname}"
         output_file="$(dasherize_name ${file_basename}).png"
