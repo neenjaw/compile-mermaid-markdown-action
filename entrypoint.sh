@@ -8,7 +8,7 @@
 # Usage:
 #   > entrypoint.sh <output path> [<file1> [<file2> ...]]
 
-# For *.mermaid files, it is compiled and a *.mermaid.png is created at the location
+# For *.mermaid or *.mmd files, it is compiled and a *.mermaid.png is created at the location
 
 # For *.md files:
 #   1) finds all of the mermaid markup in the file
