@@ -27,6 +27,7 @@ on:
   push:
     paths:
       - '**/*.mermaid'
+      - '**/*.mmd'
       - '**/*.md'
 
 jobs:
@@ -41,7 +42,7 @@ jobs:
     - name: get changed files
       id: getfile
       run: |
-        echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -e '.*\.md$' -e '.*\.mermaid$' | xargs)"
+        echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -e '.*\.md$' -e '.*\.mmd$' -e '.*\.mermaid$' | xargs)"
 
     - name: mermaid files changed
       run: |
