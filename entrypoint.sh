@@ -27,30 +27,29 @@ function main {
 
   shift $(( OPTIND - 1 ))
 
-  for file in "$@"; do
-    if [[ -f "${file}" ]]; then
-      printf "Attempting compile of: %s\n" "${file}"
+  for in_file in "$@"; do
+    if [[ -f "${in_file}" ]]; then
+      printf "Attempting compile of: %s\n" "${in_file}"
 
-      file_dirname=$(dirname "${file}")
-      file_basename=$(basename "${file}")
-      file_name="${file_basename%.*}"
-      file_type="${file_basename##*.}"
+      in_file_dirname=$(dirname "${in_file}")
+      in_file_basename=$(basename "${in_file}")
+      #in_file_name="${in_file_basename%.*}"
+      in_file_type="${in_file_basename##*.}"
 
+      if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
-      if [[ "${file_type}" == "mermaid" || "${file_type}" == "mmd" ]]; then
+        output_path="${in_file_dirname}"
+        output_file="$(dasherize_name ${in_file_basename}).png"
+        c_mermaid "${in_file}" "${output_path}/${output_file}"
 
-        output_path="${file_dirname}"
-        output_file="$(dasherize_name ${file_basename}).png"
-        c_mermaid "${file}" "${output_path}/${output_file}"
-
-      elif [[ "${file_type}" == "md" ]]; then
+      elif [[ "${in_file_type}" == "md" ]]; then
 
         output_path="${outpath}"
-        c_md_mermaid "${file}" "${output_path}"
+        c_md_mermaid "${in_file}" "${output_path}"
 
       else
 
-        die "*.${file_type} is not a recognized type.  Check that your Github action is submitting a valid file to this entrypoint."
+        die "*.${in_file_type} is not a recognized type.  Check that your Github action is submitting a valid file to this entrypoint."
 
       fi
     fi
