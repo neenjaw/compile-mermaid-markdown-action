@@ -11,10 +11,11 @@
 # For *.mermaid or *.mmd files, it is compiled and a *.mermaid.png is created at the location
 
 # For *.md files:
-#   1) finds all of the mermaid markup in the file
-#   2) creates intermediate files in the output directory *.md.<n>.mermaid where n represents the nth block found
-#   3) compile the mermaid to the directory *.md.<n>.mermaid.png
-#   4) place a reference to the compiled image in the markdown
+#   1) strips suffix off generated file
+#   2) finds all of the mermaid markup in the file
+#   3) creates intermediate files in the output directory *.md.<n>.mermaid where n represents the nth block found
+#   4) compile the mermaid to the directory *.md.<n>.mermaid.png
+#   5) place a reference to the compiled image in the markdown
 
 set -euo pipefail
 
@@ -44,7 +45,8 @@ function main {
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
 
         output_path="${outpath}"
-        c_md_mermaid "${in_file}" "${output_path}"
+        output_file=$(strip_path_by_suffix "${in_file}")
+        c_md_mermaid "${in_file}" "${output_file}" "${output_path}"
 
       else
 
@@ -70,6 +72,21 @@ function is_path_markdown {
   return 1
 }
 
+function strip_path_by_suffix {
+
+  in_path="${1}"
+
+  for STRIP_PATH_SUFFIX in ${STRIP_PATH_SUFFIXES:-}; do
+    out_path="${in_path%${STRIP_PATH_SUFFIX}}"
+    if [[ "${out_path}" != "${in_path}" ]]; then
+      echo "${out_path}" # Found suffix to strip
+      return
+    fi
+  done
+
+  echo "${in_path}"
+}
+
 # $1 - the file to compile
 # $2 - the output location
 function c_mermaid {
@@ -79,12 +96,14 @@ function c_mermaid {
   confirm_creation "${2}"
 }
 
-# $1 - the file to compile
-# $2 - output path
+# $1 - the file to compile from
+# $2 - the file to compile to
+# $3 - output path
 function c_md_mermaid {
   printf "Parsing mermaid codeblocks from %s\n" "${1}"
 
-  output_path="${2}"
+  output_file="${2}"
+  output_path="${3}"
 
   input_dir=$(dirname "${1}")
   dasherized=$(dasherize_name "${1}")
@@ -135,8 +154,8 @@ function c_md_mermaid {
         -v hide_codeblocks="${HIDE_CODEBLOCKS}" \
         -f "${insert_markdown_awk}" \
         "${1}" > "${1}-temp"
-    rm "${1}"
-    mv "${1}-temp" "${1}"
+    rm "${output_file}"
+    mv "${1}-temp" "${output_file}"
   done
 
   # remove tmp dir
