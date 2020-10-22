@@ -71,11 +71,13 @@ function c_mermaid {
 function c_md_mermaid {
   printf "Parsing mermaid codeblocks from %s\n" "${1}"
 
+  output_path="${2}"
+
   input_dir=$(dirname "${1}")
   dasherized=$(dasherize_name "${1}")
 
   # Make a temporary directory
-  tmp_dir="${2}/tmp"
+  tmp_dir="${output_path}/tmp"
   mkdir -p "${tmp_dir}"
 
   all_file="${tmp_dir}/mermaid-blocks"
@@ -102,11 +104,11 @@ function c_md_mermaid {
     rm "${all_file}x"
 
     # Compile mermaid block"
-    c_mermaid "${block_file}-${block_count}" "${2}/${dasherized}-${block_count}.png"
+    c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.png"
 
     # Compute relative path from the markdown to the tmp_dir
-    image_relative_path=$(realpath --relative-to="${input_dir}" "${2}/${dasherized}-${block_count}.png")
-    image_absolute_path="/${2}/${dasherized}-${block_count}.png"
+    image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.png")
+    image_absolute_path="/${output_path}/${dasherized}-${block_count}.png"
 
     if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
       image_path="${image_relative_path}"
