@@ -42,7 +42,7 @@ function main {
         output_file="$(dasherize_name ${in_file_basename}).png"
         c_mermaid "${in_file}" "${output_path}/${output_file}"
 
-      elif [[ "${in_file_type}" == "md" ]]; then
+      elif is_path_markdown ${in_file_basename} "${MD_SUFFIXES-.md}"; then
 
         output_path="${outpath}"
         c_md_mermaid "${in_file}" "${output_path}"
@@ -54,6 +54,21 @@ function main {
       fi
     fi
   done
+}
+
+function is_path_markdown {
+
+  path="${1}"
+  suffixes="${2}"
+
+  for suffix in ${suffixes}; do
+    if [[ "${path}" == *${suffix} ]]; then
+      return 1
+    fi
+  done
+
+  return 0
+
 }
 
 # $1 - the file to compile
