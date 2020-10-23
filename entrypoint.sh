@@ -33,7 +33,7 @@ function main {
 
       in_file_dirname=$(dirname "${in_file}")
       in_file_basename=$(basename "${in_file}")
-      #in_file_name="${in_file_basename%.*}"
+      in_file_name="${in_file_basename%.*}"
       in_file_type="${in_file_basename##*.}"
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
