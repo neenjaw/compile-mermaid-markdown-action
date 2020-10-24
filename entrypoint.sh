@@ -56,6 +56,7 @@ function main {
   done
 }
 
+
 function is_path_markdown {
 
   path="${1}"
@@ -68,7 +69,6 @@ function is_path_markdown {
   done
 
   return 0
-
 }
 
 # $1 - the file to compile
@@ -168,6 +168,17 @@ function die {
   exit 1
 }
 
+function validate_md_suffixes {
+
+  for suffix in ${MD_SUFFIXES-}; do
+    if [[ "${suffix}" =~ ^\. ]]; then
+      continue
+    fi
+
+    die "Starting with . character is currently enforced for MD_SUFFIXES. Suffix ${suffix} is missing dot. Valid value is: .${suffix}."
+  done
+}
+
 # Check for all required dependencies
 deps=(node awk realpath basename dirname)
 for dep in "${deps[@]}"; do
@@ -178,6 +189,8 @@ done
 if [[ -z "${ENTRYPOINT_PATH}" ]]; then
   die "'ENTRYPOINT_PATH' is not set, set to location of entrypoint.sh"
 fi
+
+validate_md_suffixes
 
 # Check for required files
 insert_markdown_awk="${ENTRYPOINT_PATH}/insert-markdown.awk"
