@@ -123,7 +123,15 @@ function c_md_mermaid {
     image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.png")
     image_absolute_path="/${output_path}/${dasherized}-${block_count}.png"
 
-    if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
+    if [[ ${REPLACE_CODEBLOCKS:-0} -eq 1 ]]; then
+      codeblock_action="replace"
+    elif [[ ${HIDE_CODEBLOCKS:-0} -eq 1 ]]; then
+      codeblock_action="hide"
+    else
+      codeblock_action=""
+    fi
+
+    if [[ -z "${ABSOLUTE_IMAGE_LINKS-}" ]] || [[ "${codeblock_action}" == "replace" ]]; then
       image_path="${image_relative_path}"
     else
       image_path="${image_absolute_path}"
@@ -132,7 +140,7 @@ function c_md_mermaid {
     # Insert the link to the markdown
     awk -v n="${block_count}" \
         -v path="${image_path}" \
-        -v hide_codeblocks="${HIDE_CODEBLOCKS}" \
+        -v codeblock_action="${codeblock_action}" \
         -f "${insert_markdown_awk}" \
         "${1}" > "${1}-temp"
     rm "${1}"
