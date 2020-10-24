@@ -197,6 +197,17 @@ function validate_md_suffixes {
   done
 }
 
+function validate_strip_suffixes {
+
+  for suffix in ${STRIP_PATH_SUFFIXES-}; do
+    if [[ "${suffix}" =~ ^\. ]]; then
+      continue
+    fi
+
+    echo "Starting with . character is currently enforced for STRIP_PATH_SUFFIXES. Suffix ${suffix} is missing dot. Valid value is: .${suffix}."
+  done
+}
+
 # Check for all required dependencies
 deps=(node awk realpath basename dirname)
 for dep in "${deps[@]}"; do
@@ -209,6 +220,7 @@ if [[ -z "${ENTRYPOINT_PATH}" ]]; then
 fi
 
 validate_md_suffixes
+validate_strip_suffixes
 
 # Check for required files
 insert_markdown_awk="${ENTRYPOINT_PATH}/insert-markdown.awk"
