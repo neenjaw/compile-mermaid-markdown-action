@@ -63,11 +63,11 @@ function is_path_markdown {
 
   for suffix in ${suffixes}; do
     if [[ "${path}" == *${suffix} ]]; then
-      return 1
+      return 0
     fi
   done
 
-  return 0
+  return 1
 }
 
 # $1 - the file to compile
