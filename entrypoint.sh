@@ -41,7 +41,7 @@ function main {
         output_file="$(dasherize_name ${in_file_basename}).png"
         c_mermaid "${in_file}" "${output_path}/${output_file}"
 
-      elif is_path_markdown ${in_file_basename} "${MD_SUFFIXES-.md}"; then
+      elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
 
         output_path="${outpath}"
         c_md_mermaid "${in_file}" "${output_path}"
