@@ -1,4 +1,4 @@
-FROM neenjaw/mermaid:8.7.0
+FROM neenjaw/mermaid:8.9.2
 
 WORKDIR /mmdc
 COPY . /mmdc
