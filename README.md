@@ -15,6 +15,7 @@ Looking for suggestions/help in improving this action. If there is a feature you
 ## How to use
 
 The idea is that this action is to be used within a workflow, not as a standalone action at this time.
+OUTPUT_FILE_TYPE can be used to define the output file type, if you don't specify it it will default to png. You can override it to svg or pdf.
 
 ### Sample workflow with automated PR
 
@@ -55,6 +56,7 @@ jobs:
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
+          OUTPUT_FILE_TYPE: "svg"
 
       - name: show changes
         run: |
@@ -109,14 +111,14 @@ jobs:
           echo ${{ steps.getfile.outputs.files }}
 
       - name: compile mermaid
-        uses: neenjaw/compile-mermaid-markdown-action@0.3.0
+        uses: neenjaw/compile-mermaid-markdown-action@0.3.1
         with:
           files: ${{ steps.getfile.outputs.files }}
           output: '.resources'
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
-          RENDER_SVG: 1
+          OUTPUT_FILE_TYPE: "svg"
 
       - name: show changes
         run: |

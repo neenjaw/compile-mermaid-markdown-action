@@ -8,12 +8,12 @@
 # Usage:
 #   > entrypoint.sh <output path> [<file1> [<file2> ...]]
 
-# For *.mermaid or *.mmd files, it is compiled and a *.mermaid.png is created at the location
+# For *.mermaid or *.mmd files, it is compiled and a *.mermaid.${output_file_type} is created at the location
 
 # For *.md files:
 #   1) finds all of the mermaid markup in the file
 #   2) creates intermediate files in the output directory *.md.<n>.mermaid where n represents the nth block found
-#   3) compile the mermaid to the directory *.md.<n>.mermaid.png
+#   3) compile the mermaid to the directory *.md.<n>.mermaid.${output_file_type}
 #   4) place a reference to the compiled image in the markdown
 
 set -euo pipefail
