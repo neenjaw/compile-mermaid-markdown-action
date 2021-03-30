@@ -36,9 +36,9 @@ function main {
       in_file_type="${in_file_basename##*.}"
 
       if [[ -z "${RENDER_SVG}" ]]; then
-        out_file_type = "png"
+        out_file_type="png"
       else
-        out_file_type = "svg"
+        out_file_type="svg"
       fi
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
