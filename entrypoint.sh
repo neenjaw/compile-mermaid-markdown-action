@@ -40,7 +40,7 @@ function main {
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
         output_path="${in_file_dirname}"
-        output_file="$(dasherize_name ${in_file_basename}).png"
+        output_file="$(dasherize_name ${in_file_basename}).${output_file_type}"
         c_mermaid "${in_file}" "${output_path}/${output_file}"
 
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
@@ -119,11 +119,11 @@ function c_md_mermaid {
     rm "${all_file}x"
 
     # Compile mermaid block"
-    c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.png"
+    c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.${output_file_type}"
 
     # Compute relative path from the markdown to the tmp_dir
-    image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.png")
-    image_absolute_path="/${output_path}/${dasherized}-${block_count}.png"
+    image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.${output_file_type}")
+    image_absolute_path="/${output_path}/${dasherized}-${block_count}.${output_file_type}"
 
     if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
       image_path="${image_relative_path}"
