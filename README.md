@@ -48,7 +48,7 @@ jobs:
           echo ${{ steps.getfile.outputs.files }}
 
       - name: compile mermaid
-        uses: neenjaw/compile-mermaid-markdown-action@0.3.0
+        uses: neenjaw/compile-mermaid-markdown-action@0.3.1
         with:
           files: ${{ steps.getfile.outputs.files }}
           output: 'output'
@@ -116,6 +116,7 @@ jobs:
         env:
           HIDE_CODEBLOCKS: 1
           ABSOLUTE_IMAGE_LINKS: 1
+          RENDER_SVG: 1
 
       - name: show changes
         run: |

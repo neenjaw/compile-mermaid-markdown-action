@@ -13,7 +13,7 @@
 # For *.md files:
 #   1) finds all of the mermaid markup in the file
 #   2) creates intermediate files in the output directory *.md.<n>.mermaid where n represents the nth block found
-#   3) compile the mermaid to the directory *.md.<n>.mermaid.png
+#   3) compile the mermaid to the directory *.md.<n>.mermaid.png or .svg
 #   4) place a reference to the compiled image in the markdown
 
 set -euo pipefail
@@ -35,16 +35,22 @@ function main {
       in_file_basename=$(basename "${in_file}")
       in_file_type="${in_file_basename##*.}"
 
+      if [[ -z "${RENDER_SVG}" ]]; then
+        out_file_type = "png"
+      else
+        out_file_type = "svg"
+      fi
+
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
         output_path="${in_file_dirname}"
-        output_file="$(dasherize_name ${in_file_basename}).png"
+        output_file="$(dasherize_name ${in_file_basename}).${out_file_type}"
         c_mermaid "${in_file}" "${output_path}/${output_file}"
 
       elif is_path_markdown "${in_file_basename}" "${MD_SUFFIXES-.md}"; then
 
         output_path="${outpath}"
-        c_md_mermaid "${in_file}" "${output_path}"
+        c_md_mermaid "${in_file}" "${output_path}" "${out_file_type}"
 
       else
 
@@ -85,6 +91,7 @@ function c_md_mermaid {
   printf "Parsing mermaid codeblocks from %s\n" "${1}"
 
   output_path="${2}"
+  output_file_type="${3}"
 
   input_dir=$(dirname "${1}")
   dasherized=$(dasherize_name "${1}")
@@ -117,11 +124,11 @@ function c_md_mermaid {
     rm "${all_file}x"
 
     # Compile mermaid block"
-    c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.png"
+    c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.${output_file_type}"
 
     # Compute relative path from the markdown to the tmp_dir
-    image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.png")
-    image_absolute_path="/${output_path}/${dasherized}-${block_count}.png"
+    image_relative_path=$(realpath --relative-to="${input_dir}" "${output_path}/${dasherized}-${block_count}.${output_file_type}")
+    image_absolute_path="/${output_path}/${dasherized}-${block_count}.${output_file_type}"
 
     if [[ -z "${ABSOLUTE_IMAGE_LINKS}" ]]; then
       image_path="${image_relative_path}"
