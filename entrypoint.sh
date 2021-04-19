@@ -39,7 +39,7 @@ function main {
 
       if [[ "${in_file_type}" == "mermaid" || "${in_file_type}" == "mmd" ]]; then
 
-        output_path="${in_file_dirname}"
+        output_path="${outpath}"
         output_file="$(dasherize_name ${in_file_basename}).${output_file_type}"
         c_mermaid "${in_file}" "${output_path}/${output_file}"
 
