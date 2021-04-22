@@ -29,7 +29,7 @@ function main {
 
   shift $(( OPTIND - 1 ))
 
-  for in_file in "$@"; do
+  for in_file in $@; do
     if [[ -f "${in_file}" ]]; then
       printf "Attempting compile of: %s\n" "${in_file}"
 
