@@ -15,7 +15,10 @@ Looking for suggestions/help in improving this action. If there is a feature you
 ## How to use
 
 The idea is that this action is to be used within a workflow, not as a standalone action at this time.
-OUTPUT_FILE_TYPE can be used to define the output file type, if you don't specify it it will default to png. You can override it to svg or pdf.
+
+Some environment variables can be set to tune the compilation:
+* `OUTPUT_FILE_TYPE` can be used to define the output file type, if you don't specify it it will default to png. You can override it to svg or pdf.
+* `MMDC_EXTRA_ARGS` can be used to add extra command line arguments to the `mmdc` command line generating diagrams. Do not include `-i`, `-o` and `-p` arguments as they are already handled outside of this variable.
 
 ### Sample workflow with automated PR
 
