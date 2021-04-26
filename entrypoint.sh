@@ -18,6 +18,9 @@
 
 set -euo pipefail
 
+# Normalize some environment variables (default values)
+MMDC_EXTRA_ARGS="${MMDC_EXTRA_ARGS:-}"
+
 function main {
   printf "Using MMDC version %s\n" "$(/node_modules/.bin/mmdc -V)"
 
