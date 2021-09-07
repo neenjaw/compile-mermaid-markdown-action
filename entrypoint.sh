@@ -33,9 +33,9 @@ function main {
 
   shift $(( OPTIND - 1 ))
 
-  echo $@
+  files=("$@")
 
-  for in_file in $@; do
+  for in_file in "${files[@]}"; do
     if [[ -f "${in_file}" ]]; then
       printf "Attempting compile of: %s\n" "${in_file}"
 
