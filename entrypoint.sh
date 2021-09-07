@@ -22,6 +22,7 @@ set -euo pipefail
 MMDC_EXTRA_ARGS="${MMDC_EXTRA_ARGS:-}"
 
 function main {
+  set -x
   printf "Using MMDC version %s\n" "$(/node_modules/.bin/mmdc -V)"
 
   outpath="${1}"
@@ -31,6 +32,8 @@ function main {
   printf "Filetype: %s\n" "${output_file_type}"
 
   shift $(( OPTIND - 1 ))
+
+  echo $@
 
   for in_file in $@; do
     if [[ -f "${in_file}" ]]; then
