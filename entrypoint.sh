@@ -151,7 +151,7 @@ function c_md_mermaid {
 
 # $1 name to be dasherized
 function dasherize_name {
-  local result=$(echo "${1}" | sed -e 's/\./-/g' | sed -e 's;/;_;g')
+  local result=$(echo "${1}" | sed -e 's/ /-/g' | sed -e 's/\./-/g' | sed -e 's;/;_;g')
   echo "${result}"
 }
 
