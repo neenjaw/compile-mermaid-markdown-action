@@ -22,7 +22,6 @@ set -euo pipefail
 MMDC_EXTRA_ARGS="${MMDC_EXTRA_ARGS:-}"
 
 function main {
-  set -x
   printf "Using MMDC version %s\n" "$(/node_modules/.bin/mmdc -V)"
 
   outpath="${1}"
@@ -124,8 +123,6 @@ function c_md_mermaid {
     mv "${all_file}" "${all_file}x"
     sed "1,${line_count}d" < "${all_file}x" > "${all_file}"
     rm "${all_file}x"
-
-    cat "${block_file}-${block_count}"
 
     # Compile mermaid block"
     c_mermaid "${block_file}-${block_count}" "${output_path}/${dasherized}-${block_count}.${output_file_type}"
