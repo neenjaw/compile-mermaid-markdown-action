@@ -86,7 +86,6 @@ function c_mermaid {
   printf "Extra args: %s\n" "${MMDC_EXTRA_ARGS}"
   /node_modules/.bin/mmdc -p /mmdc/puppeteer-config.json -i "${1}" -o "${2}" ${MMDC_EXTRA_ARGS}
   confirm_creation "${2}"
-  cat "${2}"
 }
 
 # $1 - the file to compile
